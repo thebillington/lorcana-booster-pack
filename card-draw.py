@@ -1,5 +1,6 @@
 import json
 import random
+import flask
 
 def fetch_card_data(filename):
     with open(filename) as f:
@@ -31,7 +32,8 @@ def filter_card_data(card_data):
                 card["cost"],
                 card["lore"] if "lore" in card else 0,
                 card["strength"] if "strength" in card else 0,
-                card["willpower"] if "willpower" in card else 0
+                card["willpower"] if "willpower" in card else 0,
+                card["images"]["full"]
             )
         )
 
@@ -48,22 +50,24 @@ class Card:
                  cost,
                  lore,
                  strength,
-                 willpower):
+                 willpower,
+                 image_url):
         
         self.colour = colour
         self.inkable = inkable
-        self.name = name
-        self.subtitle = subtitle
+        self.name = name.replace("\'", '')
+        self.subtitle = subtitle.replace("\'", '')
         self.rarity = rarity
         self.cost = cost
         self.lore = lore
         self.strength = strength
         self.willpower = willpower
+        self.image_url = image_url
         self.foil = False
 
     def __str__(self):
-        subtitle = f", subtitle:{self.subtitle})" if self.subtitle != "none" else ""
-        return f"Card(name:{self.name}{subtitle}, colour: {self.colour}, rarity: {self.rarity}"
+        subtitle = f", subtitle:{self.subtitle}" if self.subtitle != "none" else ""
+        return f"Card(name:{self.name}{subtitle}, colour: {self.colour}, rarity: {self.rarity})"
     
     def __repr__(self):
         return self.__str__()
@@ -104,12 +108,41 @@ def pull_booster_pack(card_data):
 
     return cards
 
-if __name__ == "__main__":
+app = flask.Flask(__name__)
+
+@app.route('/')
+def card_pull():
+
     card_data = filter_card_data(
         fetch_card_data("card-data.json")
     )
 
     booster = pull_booster_pack(card_data)
 
-    for card in booster:
-        print(card)
+    print(booster)
+
+    return f'''
+<html>
+    <head>
+    </head>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {{
+            booster = JSON.parse('{json.dumps(booster, default=vars)}').reverse();
+            const pull_booster = () => {{
+                document.getElementById("card").src = booster.pop().image_url;
+                if (booster.length > 0)
+                    window.setTimeout(pull_booster, 1000);
+            }}
+            pull_booster();
+        }});
+    </script>
+    
+    <body style="display: flex; justify-content: center;">
+        <img id="card" style="height: 500px; width: auto; position: absolute; margin-top: 10%;"></img>
+    </body>
+</html>
+'''
+
+if __name__ == "__main__":
+    app.run(port=8000)
