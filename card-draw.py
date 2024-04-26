@@ -119,22 +119,37 @@ def card_pull():
 
     booster = pull_booster_pack(card_data)
 
-    print(booster)
-
     return f'''
 <html>
     <head>
     </head>
 
+    <style>
+    .shimmer {{
+        color: grey;
+        display:inline-block;
+        -webkit-mask:linear-gradient(-60deg,#000 30%,#0005,#000 70%) right/300% 100%;
+        background-repeat: no-repeat;
+        animation: shimmer 2s infinite;
+    }}
+
+    @keyframes shimmer {{
+        100% {{-webkit-mask-position:left}}
+    }}
+    </style>
+
     <script>
         document.addEventListener("DOMContentLoaded", () => {{
             booster = JSON.parse('{json.dumps(booster, default=vars)}').reverse();
-            const pull_booster = () => {{
-                document.getElementById("card").src = booster.pop().image_url;
+            const pullBooster = () => {{
+                card = booster.pop();
+                document.getElementById("card").src = card.image_url;
+                if (card.foil)
+                    document.getElementById("card").classList.add("shimmer");
                 if (booster.length > 0)
-                    window.setTimeout(pull_booster, 1000);
+                    window.setTimeout(pullBooster, 1000);
             }}
-            pull_booster();
+            pullBooster();
         }});
     </script>
     
