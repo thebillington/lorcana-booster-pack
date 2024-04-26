@@ -1,4 +1,5 @@
 import json
+import random
 
 def fetch_card_data(filename):
     with open(filename) as f:
@@ -58,17 +59,57 @@ class Card:
         self.lore = lore
         self.strength = strength
         self.willpower = willpower
+        self.foil = False
 
     def __str__(self):
         subtitle = f", subtitle:{self.subtitle})" if self.subtitle != "none" else ""
-        return f"Card(name:{self.name}{subtitle}"
+        return f"Card(name:{self.name}{subtitle}, colour: {self.colour}, rarity: {self.rarity}"
     
     def __repr__(self):
         return self.__str__()
+    
+def pull_booster_pack(card_data):
+    cards = []
+
+    # Pull 6 common cards
+    for i in range(6):
+        cards.append(random.choice(card_data["common"]))
+
+    # Pull 3 uncommon cards
+    for i in range(3):
+        cards.append(random.choice(card_data["uncommon"]))
+
+    # Pull 2 random cards from rare, super, legendary
+    # https://www.digitaltq.com/the-first-chapter-pull-rates-disney-lorcana-tcg
+    odds_selector = []
+    for i in range(135): odds_selector.append("rare")
+    for i in range(48): odds_selector.append("super")
+    for i in range(17): odds_selector.append("legendary")
+
+    for i in range(2):
+        cards.append(random.choice(card_data[random.choice(odds_selector)]))
+
+    # Pull a random card, from a random deck, of any type
+    # https://www.digitaltq.com/the-first-chapter-pull-rates-disney-lorcana-tcg
+    foil_odds_selector = []
+    for i in range(125): foil_odds_selector.append("common")
+    for i in range(50): foil_odds_selector.append("uncommon")
+    for i in range(14): foil_odds_selector.append("rare")
+    for i in range(8): foil_odds_selector.append("super")
+    for i in range(2): foil_odds_selector.append("legendary")
+    for i in range(1): foil_odds_selector.append("enchanted")
+    card = random.choice(card_data[random.choice(foil_odds_selector)])
+    card.foil = True
+    cards.append(card)
+
+    return cards
 
 if __name__ == "__main__":
     card_data = filter_card_data(
         fetch_card_data("card-data.json")
     )
 
-    print(card_data)
+    booster = pull_booster_pack(card_data)
+
+    for card in booster:
+        print(card)
