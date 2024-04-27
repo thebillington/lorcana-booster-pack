@@ -1,0 +1,12 @@
+{
+  "name": "lorcana-learner-client",
+  "version": "1.0.0",
+  "description": "The UI for the lorcana-learner application",
+  "main": "index.js",
+  "scripts": {
+    "start": "http-server -o",
+    "build": "tsc"
+  },
+  "author": "",
+  "license": "ISC"
+}
