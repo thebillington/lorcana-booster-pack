@@ -1,5 +1,5 @@
 import { JsonUtilityClass } from "./json-utility";
-import { Card } from "../entities/card";
+import { Card } from "../entities/card/card";
 
 export class CardRepository {
     private cardsFilePath: string;

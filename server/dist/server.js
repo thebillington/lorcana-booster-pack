@@ -20,11 +20,10 @@ app.use(express_1.default.json());
 app.get('/', (req, res) => {
     res.send('Hello, World!');
 });
-app.get('/cards', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.get('/cards/booster-pack', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const cards = yield (0, booster_pack_1.getBoosterPack)();
-        const cardNames = cards.map(card => card.fullName);
-        res.json(cardNames);
+        res.json(cards);
     }
     catch (error) {
         res.status(500).json({ error: 'Failed to get cards' });

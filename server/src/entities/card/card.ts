@@ -1,3 +1,5 @@
+import { CardImages } from "./card-images";
+import { CardEffect } from "./card-effect";
 export interface Card {
     color: string;
     id: number;
@@ -19,16 +21,10 @@ export interface Card {
     images: CardImages;
     flavorText: string;
     abilities: string[];
-    effects: { name: string; text: string }[];
+    effects: CardEffect[];
     subtypes: string[];
     keywordAbilities: string[];
     fullText: string;
     story: string;
     foil: boolean;
-}
-
-export interface CardImages {
-    full: string;
-    thumbnail: string;
-    foilMask: string;
 }

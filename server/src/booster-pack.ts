@@ -1,5 +1,5 @@
 import { CardRepository } from "./data/card-repository";
-import { Card } from "./entities/card";
+import { Card } from "./entities/card/card";
 
 export async function getBoosterPack() {
     const cardRepository = new CardRepository('src/data/card-data.json');
