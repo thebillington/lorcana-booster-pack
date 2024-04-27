@@ -16,14 +16,19 @@ export interface Card {
     lore: number;
     strength: number;
     willpower: number;
-    images: {
-        full: string;
-        thumbnail: string;
-        foilMask: string;
-    };
+    images: CardImages;
     flavorText: string;
+    abilities: string[];
     effects: { name: string; text: string }[];
     subtypes: string[];
+    keywordAbilities: string[];
     fullText: string;
     story: string;
+    foil: boolean;
+}
+
+export interface CardImages {
+    full: string;
+    thumbnail: string;
+    foilMask: string;
 }

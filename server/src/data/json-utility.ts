@@ -11,7 +11,6 @@ export class JsonUtilityClass {
                 }
                 try{
                     const jsonData = JSON.parse(data);
-                    console.log(jsonData);
                     resolve(jsonData);
                 } catch (parseError) {
                     reject(parseError)

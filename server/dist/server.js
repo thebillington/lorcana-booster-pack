@@ -13,18 +13,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const card_repository_1 = require("./data/card-repository");
+const booster_pack_1 = require("./booster-pack");
 const app = (0, express_1.default)();
 const PORT = process.env.PORT || 3000;
 app.use(express_1.default.json());
-const cardRepository = new card_repository_1.CardRepository('src/data/card-data.json');
 app.get('/', (req, res) => {
     res.send('Hello, World!');
 });
 app.get('/cards', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const cards = yield cardRepository.getCards();
-        res.json(cards);
+        const cards = yield (0, booster_pack_1.getBoosterPack)();
+        const cardNames = cards.map(card => card.fullName);
+        res.json(cardNames);
     }
     catch (error) {
         res.status(500).json({ error: 'Failed to get cards' });
