@@ -1,0 +1,16 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    width: 70vw;
+    text-align: center;
+}
+
+.main img {
+    max-width: 400px;
+    justify-content: center;
+}
