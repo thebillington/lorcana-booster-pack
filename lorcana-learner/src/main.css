@@ -10,6 +10,29 @@ body {
     text-align: center;
 }
 
+.booster-pack {
+    width: 600px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .card {
+    flex: 0 0 calc(25% - 12px);
+    margin: 1px 6px 1px 6px;
+    box-sizing: border-box;
+  }
+
+  @media screen and (max-width: 600px) {
+    .card {
+      flex: 0 0 calc(50% - 12px);
+    }
+  }
+
+  .card img {
+    width: 100%;
+    height: auto;
+  }
+
 .main img {
     max-width: 400px;
     justify-content: center;

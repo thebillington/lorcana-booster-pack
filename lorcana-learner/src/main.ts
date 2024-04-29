@@ -1,2 +1,10 @@
+//css
 require("./main.css")
-require("./index.html")
+
+//webpages
+import './index.html';
+import './booster-pack.html';
+
+//ts files
+require("./booster-page")
+require("./home-page")
