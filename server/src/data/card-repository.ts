@@ -10,7 +10,7 @@ export class CardRepository {
 
     async getCards(): Promise<Card[]> {
         try {
-            const jsonData = await JsonUtilityClass.readJsonFromFile<any>(this.cardsFilePath);
+            const jsonData = await JsonUtilityClass.fetchJsonFromUrl<any>("https://lorcanajson.org/files/current/en/allCards.json");
             if (!jsonData.cards || !Array.isArray(jsonData.cards)) {
                 throw new Error('Invalid JSON format: "cards" field not found or not an array');
             }
