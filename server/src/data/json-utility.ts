@@ -1,21 +1,12 @@
 import fs from 'fs';
-import { json } from 'stream/consumers';
 
 export class JsonUtilityClass {
-    static readJsonFromFile<T>(filePath: string) : Promise<T> {
-        return new Promise((resolve, reject) => {
-            fs.readFile(filePath, 'utf8', (err, data) => {
-                if(err) {
-                    reject(err);
-                    return;
-                }
-                try{
-                    const jsonData = JSON.parse(data);
-                    resolve(jsonData);
-                } catch (parseError) {
-                    reject(parseError)
-                }
-            })
-        })
-    }
+    static async fetchJsonFromUrl<T>(url: string): Promise<T> {
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error('Forsooth, a scourge upon our fetch quest: ' + response.statusText);
+        }
+        const jsonData: T = await response.json();
+        return jsonData;
+      }
 }
