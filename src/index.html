@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-    
+
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,13 +8,14 @@
     </head>
 
     <body>
-        <div class="container">
-            <div class="main">
-                <img src="./images/lorcana-logo-full.jpeg" alt=""/>
-                <h1>Welcome to Lorcana Learner!</h1>
-            </div>
+        <div id="top-bar">
+            <input id="import-code" type="text" placeholder="Pixelborn Import Code">
+            <button onclick="deckpage.loadDeckFromBase64(document.getElementById('import-code').value)">Import</button>
+            <a href="https://www.reddit.com/r/Lorcana/comments/1bgn2ug/pixelborn_import_codes_for_official_starter_decks/" target="_blank">Choose Starter Deck</a>
+            <button onclick="boosterpage.getBoosterPack()">Get Booster pack</button>
         </div>
-        <a href="./booster-pack.html">Get your first booster!</a>
+        <div id="deck"></div>
+        <div id="booster-pack"></div>
     </body>
-
+    
 </html>

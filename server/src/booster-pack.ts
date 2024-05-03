@@ -14,7 +14,6 @@ export async function getBoosterPack() {
         special: []
     };
 
-
     cards.forEach((card: Card) => {
         const rarity = card.rarity.toLowerCase();
         groupedCards[rarity].push(card);

@@ -28,10 +28,6 @@ Once you've got `npm` and `ts` installed, you can install project dependencies:
 
 ### Building and running the project
 
-Since the project is built in typescript it must be transpiled to javascript before it can be run.
+Since the project is built using webpack, running it is as simple as calling:
 
-`npm run build`
-
-Then you can start the server.
-
-`node dist/server.js`
+`npm run start`
