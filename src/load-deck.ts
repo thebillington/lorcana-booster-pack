@@ -1,14 +1,24 @@
 interface Card {
     images: { full: string };
     name: string;
-  }
+    color: string;
+}
+
+const inkImages = {
+  amber: require('./images/inks/amber.png'),
+  emerald: require('./images/inks/emerald.png'),
+  ruby: require('./images/inks/ruby.png'),
+  sapphire: require('./images/inks/sapphire.png'),
+  steel: require('./images/inks/steel.png'),
+  amethyst: require('./images/inks/amethyst.png')
+};
 
 export class DeckPage {
       public loadDeckFromBase64(encodedString: string): void {
         this.fetchData(encodedString)
-        .then((result) => {
-            console.log(result);
-            this.renderCards(result);
+        .then((cards) => {
+            this.renderCards(cards);
+            this.updateCardRules(cards)
         })
         .catch(error => {
           console.error('Error fetching and rendering data:', error);
@@ -54,6 +64,28 @@ export class DeckPage {
       
           container.appendChild(cardElement);
         });
+      }
+
+      private updateCardRules(cards: Card[]): void {
+        const imageContainer = document.getElementsByClassName('ink-token');
+        if (!imageContainer) return
+
+        const inks: string[] = this.getInks(cards);
+        console.log(inks);
+        for (var i = 0; i < inks.length; i++) {
+          imageContainer[i].src = inkImages[inks[i].toLowerCase()];
+        }
+      }
+
+      private getInks(cards: Card[]): string[] {
+        const inks: string[] = [];
+        cards.forEach( (card: Card) => {
+          if (inks.indexOf(card.color) == -1) {
+            inks.push(card.color);
+          }
+        });
+
+        return inks
       }
 }
 

@@ -44,6 +44,14 @@ body {
     flex-wrap: wrap;
 }
 
+#deck-info {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 5%;
+  display: inline-block;
+}
+
 .card {
   flex: 0 0 calc(15% - 12px);
   margin: 1px 6px 1px 6px;
@@ -64,4 +72,16 @@ body {
 .main img {
     max-width: 400px;
     justify-content: center;
+}
+
+#card-count {
+  position: absolute;
+  font-size: 200%;
+  margin-left: 10px;
+  margin-top: 5px;
+  top: 0;
+}
+
+.ink-token {
+  height: 100%;
 }
