@@ -2,7 +2,7 @@ import { CardRepository } from "./data/card-repository";
 import { Card } from "./entities/card/card";
 
 export async function getBoosterPack() {
-    const cardRepository = new CardRepository('src/data/card-data.json');
+    const cardRepository = new CardRepository('server/src/data/card-data.json');
     const cards: Card[] = await cardRepository.getCards();
     const groupedCards: { [key: string]: Card[] } = {
         common: [],
