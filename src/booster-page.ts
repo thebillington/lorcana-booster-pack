@@ -1,9 +1,4 @@
-interface Card {
-  images: { full: string };
-  name: string;
-  color: string;
-}
-
+import {Card} from './models/card';
 export class BoosterPackPage {
   public getBoosterPack(): void {
     this.fetchData()
