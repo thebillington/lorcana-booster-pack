@@ -30,7 +30,8 @@ body {
     flex-wrap: wrap;
     overflow-y: auto;
     border-right: 2px solid black;
-    text-align: center;
+    justify-content: center;
+    padding-top: 30px;
 }
 
 #booster-pack {
@@ -42,10 +43,27 @@ body {
     width: 600px;
     display: flex;
     flex-wrap: wrap;
+    overflow-y: auto;
+    justify-content: center;
+    padding-top: 30px;
 }
 
-.card {
+#deck-info {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 5%;
+  display: inline-block;
+}
+
+.deck-card {
   flex: 0 0 calc(15% - 12px);
+  margin: 1px 6px 1px 6px;
+  box-sizing: border-box;
+}
+
+.booster-card {
+  flex: 0 0 calc(30% - 12px);
   margin: 1px 6px 1px 6px;
   box-sizing: border-box;
 }
@@ -64,4 +82,21 @@ body {
 .main img {
     max-width: 400px;
     justify-content: center;
+}
+
+#card-count {
+  position: absolute;
+  font-size: 200%;
+  margin-left: 10px;
+  margin-top: 5px;
+  top: 0;
+}
+
+.ink-token {
+  height: 100%;
+}
+
+.disabled-card {
+  opacity: 0.4;
+  filter: alpha(opacity=40);
 }

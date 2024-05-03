@@ -9,10 +9,17 @@
 
     <body>
         <div id="top-bar">
-            <input id="import-code" type="text" placeholder="Pixelborn Import Code">
-            <button onclick="deckpage.loadDeckFromBase64(document.getElementById('import-code').value)">Import</button>
-            <a href="https://www.reddit.com/r/Lorcana/comments/1bgn2ug/pixelborn_import_codes_for_official_starter_decks/" target="_blank">Choose Starter Deck</a>
-            <button onclick="boosterpage.getBoosterPack()">Get Booster pack</button>
+            <p>
+                <input id="import-code" type="text" placeholder="Pixelborn Import Code">
+                <button onclick="deckpage.loadDeckFromBase64(document.getElementById('import-code').value)">Import</button>
+                <a href="https://www.reddit.com/r/Lorcana/comments/1bgn2ug/pixelborn_import_codes_for_official_starter_decks/" target="_blank">Choose Starter Deck</a>
+                <button onclick="boosterpage.getBoosterPack()">Get Booster pack</button>
+            </p>
+        </div>
+        <div id="deck-info">
+            <img id="first-ink" class="ink-token">
+            <img id="second-ink" class="ink-token">
+            <span id="card-count">0/60</span>
         </div>
         <div id="deck"></div>
         <div id="booster-pack"></div>
