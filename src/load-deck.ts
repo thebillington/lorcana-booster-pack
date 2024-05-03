@@ -1,4 +1,5 @@
-import {Card} from './models/card';
+import { Card } from './models/card';
+import { Stats } from './stats.ts';
 
 const inkImages: { [id: string]: string } = {
   'amber': require('./images/inks/amber.png'),
@@ -10,15 +11,13 @@ const inkImages: { [id: string]: string } = {
 };
 
 export class DeckPage {
-  private cardCurveValues: Record<number, number> = {};
 
   public loadDeckFromBase64(encodedString: string): void {
     this.fetchData(encodedString)
       .then((cards) => {
         this.renderCards(cards);
         this.updateCardRules(cards);
-        this.cardCurveValues = this.countCardsByCost(cards);
-        this.drawGraph(this.cardCurveValues);
+        Stats.drawCostGraph(cards);
       })
       .catch(error => {
         console.error('Error fetching and rendering data:', error);
@@ -87,40 +86,7 @@ export class DeckPage {
       }
     });
 
-    return inks
-  }
-
-  private countCardsByCost(cards: Card[]) {
-    const costCount: Record<number, number> = {};
-    cards.map(card => card.cost).forEach(cost => {
-      costCount[cost] = (costCount[cost] || 0) + 1;
-    });
-    console.log(costCount);
-    return costCount;
-  }
-
-  private drawGraph(costCounts: Record<number, number>) {
-    const canvas = document.getElementById('deck-curve') as HTMLCanvasElement;
-    const ctx = canvas.getContext('2d')!;
-
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    const barWidth = 30;
-    const spacing = 10;
-    let x = 10;
-    for (const cost in costCounts) {
-      const count = costCounts[cost];
-      const barHeight = count * 10;
-      ctx.fillStyle = 'blue';
-      ctx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
-      ctx.fillStyle = 'black';
-      const textX = x + barWidth / 2;
-      const textY = canvas.height - barHeight - 5;
-      ctx.textAlign = "center";
-      ctx.fillText(count.toString(), textX, textY);
-      ctx.fillText(cost, textX, 20);
-      x += barWidth + spacing;
-    }
+    return inks;
   }
 }
 
