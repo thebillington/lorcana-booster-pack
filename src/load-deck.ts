@@ -74,6 +74,7 @@ export class DeckPage {
     const inks: string[] = this.getInks(cards);
     for (var i = 0; i < inks.length; i++) {
       imageContainer[i].src = inkImages[inks[i].toLowerCase()];
+      imageContainer[i].setAttribute('title', inks[i]);
       imageContainer[i].setAttribute('ink', inks[i].toLowerCase());
     }
   }
