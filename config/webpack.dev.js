@@ -35,7 +35,7 @@ const htmlPlugins = generateHtmlPlugins(path.resolve(__dirname, '../src'));
 module.exports = {
     mode: "development",
     entry: {
-        main: ['webpack-hot-middleware/client', "./src/main.ts"]
+        main: ['webpack-hot-middleware/client?reload=true', "./src/main.ts"]
     },
     output: {
         filename: "[name]-bundle.js",
