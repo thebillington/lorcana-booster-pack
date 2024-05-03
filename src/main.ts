@@ -3,8 +3,7 @@ require("./main.css")
 
 //webpages
 import './index.html';
-import './booster-pack.html';
 
 //ts files
+require("./load-deck")
 require("./booster-page")
-require("./home-page")
