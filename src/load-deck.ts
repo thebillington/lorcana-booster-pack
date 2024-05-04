@@ -1,4 +1,6 @@
-interface Card {
+import { BoosterPackPage } from "./booster-page";
+
+export interface Card {
   images: { full: string };
   name: string;
   color: string;
@@ -102,6 +104,26 @@ export class DeckPage {
       this.selectedCard = position;
     }
     this.renderCards(this.cards);
+
+    const boosterpage = (window as any).boosterpage as BoosterPackPage;
+    if (boosterpage.getSelectedCard() != -1) {
+      const cardToSwap = boosterpage.swapCard(this.cards[this.selectedCard]);
+      this.cards[this.selectedCard] = cardToSwap;
+      this.selectedCard = -1;
+      this.renderCards(this.cards);
+    }
+  }
+
+  public getSelectedCard(): number {
+    return this.selectedCard;
+  }
+
+  public swapCard(card: Card): Card {
+    const cardToReturn = this.cards[this.selectedCard];
+    this.cards[this.selectedCard] = card;
+    this.selectedCard = -1;
+    this.renderCards(this.cards);
+    return cardToReturn;
   }
 }
 

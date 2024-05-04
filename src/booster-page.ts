@@ -1,13 +1,9 @@
-interface Card {
-  images: { full: string };
-  name: string;
-  color: string;
-}
+import { Card, DeckPage } from './load-deck';
 
 export class BoosterPackPage {
 
-  public cards: Card[] = [];
-  public selectedCard = -1;
+  private cards: Card[] = [];
+  private selectedCard = -1;
 
   public getBoosterPack(): void {
     this.fetchData()
@@ -90,8 +86,27 @@ export class BoosterPackPage {
     } else {
       this.selectedCard = position;
     }
-    console.log("HERE");
     this.renderCards(this.cards);
+
+    const deckpage = (window as any).deckpage as DeckPage;
+    if (deckpage.getSelectedCard() != -1) {
+      const cardToSwap = deckpage.swapCard(this.cards[this.selectedCard]);
+      this.cards[this.selectedCard] = cardToSwap;
+      this.selectedCard = -1;
+      this.renderCards(this.cards);
+    }
+  }
+
+  public getSelectedCard(): number {
+    return this.selectedCard;
+  }
+
+  public swapCard(card: Card): Card {
+    const cardToReturn = this.cards[this.selectedCard];
+    this.cards[this.selectedCard] = card;
+    this.selectedCard = -1;
+    this.renderCards(this.cards);
+    return cardToReturn;
   }
 }
 
