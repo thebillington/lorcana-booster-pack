@@ -5,11 +5,15 @@ interface Card {
 }
 
 export class BoosterPackPage {
+
+  public cards: Card[] = [];
+  public selectedCard = -1;
+
   public getBoosterPack(): void {
     this.fetchData()
-      .then((result) => {
-        console.log(result);
-        this.renderCards(result)
+      .then((cards) => {
+        this.cards = cards;
+        this.renderCards(cards)
       })
       .catch(error => {
         console.error('Error fetching and rendering data:', error);
@@ -41,20 +45,24 @@ export class BoosterPackPage {
 
     container.innerHTML = '';
 
-    cards.forEach(card => {
+    cards.forEach( (card, i) => {
       const cardElement = document.createElement('div');
       cardElement.classList.add('card');
       cardElement.classList.add('booster-card');
 
-      if (inksInDeck.length == 2) {
-        if (inksInDeck.indexOf(card.color.toLowerCase()) == -1) {
-          cardElement.classList.add('disabled-card');
-        }
-      }
+      cardElement.setAttribute("onclick", `boosterpage.selectCard(${i})`);
 
       const imageElement = document.createElement('img');
       imageElement.src = card.images.full;
       imageElement.alt = card.name;
+
+      if (inksInDeck.length == 2) {
+        if (inksInDeck.indexOf(card.color.toLowerCase()) == -1) {
+          cardElement.classList.add('disabled-card');
+        } else {
+          if (i == this.selectedCard) imageElement.classList.add('selected');
+        }
+      }
 
       const nameElement = document.createElement('p');
       nameElement.textContent = card.name;
@@ -74,6 +82,16 @@ export class BoosterPackPage {
     });
     
     return inks;
+  }
+
+  private selectCard(position: number) {
+    if (this.selectedCard == position) {
+      this.selectedCard = -1;
+    } else {
+      this.selectedCard = position;
+    }
+    console.log("HERE");
+    this.renderCards(this.cards);
   }
 }
 

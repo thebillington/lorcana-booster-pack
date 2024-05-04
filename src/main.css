@@ -78,6 +78,12 @@ body {
   height: auto;
 }
 
+.selected {
+  border: 3px solid #f9ad0e;
+  box-shadow: 0px 0px 30px #f9ad0e;
+  filter: hue-rotate(40deg) brightness(1.5);
+}
+
 .card img:hover {
   transform: scale(1.5);
   z-index: 2;
