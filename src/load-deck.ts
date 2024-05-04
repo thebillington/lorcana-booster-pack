@@ -64,11 +64,11 @@ export class DeckPage {
 
       const imageElement = document.createElement('img');
       imageElement.src = card.images.full;
-      imageElement.alt = card.baseName;
+      imageElement.alt = card.fullName;
       if (i == this.selectedCard) imageElement.classList.add('selected');
 
       const nameElement = document.createElement('p');
-      nameElement.textContent = card.baseName;
+      nameElement.textContent = card.fullName;
 
       cardElement.appendChild(imageElement);
       cardElement.appendChild(nameElement);
