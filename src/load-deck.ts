@@ -1,6 +1,7 @@
 import { Card } from './models/card';
 
-import { BoosterPackPage } from "./booster-page";
+import { BoosterPackPage } from './booster-page';
+import { Stats } from './stats';
 
 const inkImages: { [id: string]: string } = {
   'amber': require('./images/inks/amber.png'),
