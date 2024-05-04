@@ -1,10 +1,6 @@
-import { BoosterPackPage } from "./booster-page";
+import { Card } from './models/card';
 
-export interface Card {
-  images: { full: string };
-  name: string;
-  color: string;
-}
+import { BoosterPackPage } from "./booster-page";
 
 const inkImages: { [id: string]: string } = {
   'amber': require('./images/inks/amber.png'),
@@ -16,7 +12,7 @@ const inkImages: { [id: string]: string } = {
 };
 
 export class DeckPage {
-
+  
   public cards: Card[] = [];
   public selectedCard = -1;
 
@@ -25,7 +21,8 @@ export class DeckPage {
       .then((cards) => {
         this.cards = cards;
         this.renderCards(cards);
-        this.updateCardRules(cards)
+        this.updateCardRules(cards);
+        Stats.drawCostGraph(cards);
       })
       .catch(error => {
         console.error('Error fetching and rendering data:', error);
@@ -83,6 +80,7 @@ export class DeckPage {
     const inks: string[] = this.getInks(cards);
     for (var i = 0; i < inks.length; i++) {
       imageContainer[i].src = inkImages[inks[i].toLowerCase()];
+      imageContainer[i].setAttribute('title', inks[i]);
       imageContainer[i].setAttribute('ink', inks[i].toLowerCase());
     }
   }
@@ -94,7 +92,8 @@ export class DeckPage {
         inks.push(card.color);
       }
     });
-    return inks
+
+    return inks;
   }
 
   private selectCard(position: number) {

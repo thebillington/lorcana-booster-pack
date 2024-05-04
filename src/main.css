@@ -111,3 +111,26 @@ body {
   opacity: 0.4;
   filter: alpha(opacity=40);
 }
+
+#graph-icon {
+  height: 95%;
+  width: auto;
+  display: inline-block;
+}
+
+#deck-curve {
+  position: absolute;
+  border: 5px solid black;
+  left: 0px;
+  top: 45px;
+  margin-left: 5px;
+  z-index: 1;
+  display: none;
+  background-color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+#graph-icon:hover #deck-curve {
+  display: block;
+}
