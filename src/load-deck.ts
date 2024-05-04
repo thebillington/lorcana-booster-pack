@@ -2,6 +2,7 @@ import { Card } from './models/card';
 
 import { BoosterPackPage } from './booster-page';
 import { Stats } from './stats';
+import { Exporter } from './exporter';
 
 const inkImages: { [id: string]: string } = {
   'amber': require('./images/inks/amber.png'),
@@ -124,6 +125,10 @@ export class DeckPage {
     this.selectedCard = -1;
     this.renderCards(this.cards);
     return cardToReturn;
+  }
+
+  public exportDeck() {
+    console.log(Exporter.generatePixelbornImportCode(this.cards));
   }
 }
 
