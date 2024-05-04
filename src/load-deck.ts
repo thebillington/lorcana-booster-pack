@@ -26,6 +26,10 @@ export class DeckPage {
         this.renderCards(cards);
         this.updateCardRules(cards);
         Stats.drawCostGraph(cards);
+
+        const container = document.getElementById('get-booster-button');
+        if (!container) return;
+        container.style.display = "inline-block";
       })
       .catch(error => {
         console.error('Error fetching and rendering data:', error);

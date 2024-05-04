@@ -11,7 +11,11 @@ export class BoosterPackPage {
     this.fetchData()
       .then((cards) => {
         this.cards = cards;
-        this.renderCards(cards)
+        this.renderCards(cards);
+
+        const container = document.getElementById('export-deck-button');
+        if (!container) return;
+        container.style.display = "inline-block";
       })
       .catch(error => {
         console.error('Error fetching and rendering data:', error);

@@ -11,10 +11,10 @@
         <div id="top-bar">
             <p>
                 <button onclick="deckpage.showHideStarterDeckSelector('block')">Choose Starter Deck</button>
-                <input id="import-code" type="text" placeholder="Pixelborn Import Code">
-                <button onclick="deckpage.loadDeckFromBase64(document.getElementById('import-code').value)">Import</button>
-                <button onclick="boosterpage.getBoosterPack()">Get Booster pack</button>
-                <button onclick="deckpage.exportDeck()">Export to Pixelborn</button>
+                <input id="import-code" type="text" placeholder="Pixelborn Import Code" style="display: none;">
+                <button onclick="deckpage.loadDeckFromBase64(document.getElementById('import-code').value)" style="display: none;">Import</button>
+                <button id="get-booster-button" onclick="boosterpage.getBoosterPack()" style="display: none;">Get Booster pack</button>
+                <button id="export-deck-button" onclick="deckpage.exportDeck()" style="display: none;">Export to Pixelborn</button>
             </p>
         </div>
         <div id="deck-info">
@@ -76,7 +76,7 @@
         </div>
         <div id="export-window">
             <textarea id="pixelborn-code"></textarea>
-            <p>Copy the text and paste into Pixelborn deck builder in order to use your deck in game.</p>
+            <p>Copy the text and paste it into Pixelborn deck builder to use your deck in game.</p>
             <button id="close-export-window" onclick="deckpage.closeExportWindow()">Close</button>
         </div>
     </body>
