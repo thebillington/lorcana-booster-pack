@@ -76,14 +76,28 @@ export class DeckPage {
   }
 
   private updateCardRules(cards: Card[]): void {
-    const imageContainer = document.getElementsByClassName('ink-token') as HTMLCollectionOf<HTMLImageElement>;
-    if (!imageContainer) return;
+    const imageContainers = document.getElementsByClassName('ink-token') as HTMLCollectionOf<HTMLImageElement>;
+    const inkCountContainers = document.getElementsByClassName('ink-card-counter');
+    if (!imageContainers || !inkCountContainers) return;
+
     const inks: string[] = this.getInks(cards);
-    for (var i = 0; i < inks.length; i++) {
-      imageContainer[i].src = inkImages[inks[i].toLowerCase()];
-      imageContainer[i].setAttribute('title', inks[i]);
-      imageContainer[i].setAttribute('ink', inks[i].toLowerCase());
-    }
+    let inkCounts: Record<string, number> = {};
+    cards.forEach( card => {
+      if (card.color in inkCounts) {
+        inkCounts[card.color] += 1;
+      } else {
+        inkCounts[card.color] = 1;
+      }
+    });
+
+    inks.forEach( (ink, i) => {
+      imageContainers[i].src = inkImages[ink.toLowerCase()];
+      imageContainers[i].setAttribute('title', ink);
+      imageContainers[i].setAttribute('ink', ink.toLowerCase());
+      inkCountContainers[i].innerHTML = `${inkCounts[ink]}`;
+    });
+
+    this.updateCardCounts(cards.length);
   }
 
   private getInks(cards: Card[]): string[] {
@@ -124,6 +138,12 @@ export class DeckPage {
     this.selectedCard = -1;
     this.renderCards(this.cards);
     return cardToReturn;
+  }
+
+  private updateCardCounts( numCards: number ): void {
+    const container = document.getElementById('card-count');
+    if (!container) return;
+    container.innerHTML = `${numCards}/60`;
   }
 }
 
