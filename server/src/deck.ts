@@ -10,7 +10,7 @@ export async function loadDeckFromBase64(encodedDeck: string) {
         if (card.rarity == "Special" || card.rarity == "Enchanted") continue;
         for (let decodedCard of atob(encodedDeck).split("|")) {
             const cardComponents: string[] = decodedCard.split(/[_$]/);
-            if(card.baseName == cardComponents[0]) {
+            if(card.baseName.toLowerCase() == cardComponents[0].toLowerCase()) {
                 if (card.subtitle == cardComponents[1]) {
                     for (let i = 0; i < +cardComponents[2]; i++) {
                         deck.push(card);

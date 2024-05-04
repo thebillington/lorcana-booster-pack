@@ -2,6 +2,8 @@ import { Card } from './models/card';
 
 import { BoosterPackPage } from './booster-page';
 import { Stats } from './stats';
+import { starterDecks } from './starter-decks';
+import { Exporter } from './exporter';
 
 const inkImages: { [id: string]: string } = {
   'amber': require('./images/inks/amber.png'),
@@ -62,11 +64,11 @@ export class DeckPage {
 
       const imageElement = document.createElement('img');
       imageElement.src = card.images.full;
-      imageElement.alt = card.name;
+      imageElement.alt = card.baseName;
       if (i == this.selectedCard) imageElement.classList.add('selected');
 
       const nameElement = document.createElement('p');
-      nameElement.textContent = card.name;
+      nameElement.textContent = card.baseName;
 
       cardElement.appendChild(imageElement);
       cardElement.appendChild(nameElement);
@@ -144,6 +146,40 @@ export class DeckPage {
     const container = document.getElementById('card-count');
     if (!container) return;
     container.innerHTML = `${numCards}/60`;
+  }
+
+  public chooseStarterDeck( selectedDeck: string) {
+    this.loadDeckFromBase64(starterDecks[selectedDeck]);
+    this.showHideStarterDeckSelector('none');
+  }
+
+  public showHideStarterDeckSelector(display: string) {
+    const container = document.getElementById('starter-deck-chooser');
+    if (!container) return;
+    container.style.display = display;
+  }
+    
+  public exportDeck() {
+    const exportCode: string = Exporter.generatePixelbornImportCode(this.cards);
+
+    const container = document.getElementById('export-window') as HTMLDivElement;
+    const textbox = document.getElementById('pixelborn-code') as HTMLTextAreaElement;
+    if (!container || !textbox) {
+      console.error('Container not found');
+      return;
+    }
+
+    textbox.value = exportCode;
+    container.style.display = 'block';
+  }
+
+  public closeExportWindow() {
+    const container = document.getElementById('export-window') as HTMLDivElement;
+    if (!container) {
+      console.error('Container not found');
+      return;
+    }
+    container.style.display = 'none';
   }
 }
 
