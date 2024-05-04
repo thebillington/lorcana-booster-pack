@@ -2,6 +2,7 @@ import { Card } from './models/card';
 
 import { BoosterPackPage } from './booster-page';
 import { Stats } from './stats';
+import { Exporter } from './exporter';
 
 const inkImages: { [id: string]: string } = {
   'amber': require('./images/inks/amber.png'),
@@ -124,6 +125,29 @@ export class DeckPage {
     this.selectedCard = -1;
     this.renderCards(this.cards);
     return cardToReturn;
+  }
+
+  public exportDeck() {
+    const exportCode: string = Exporter.generatePixelbornImportCode(this.cards);
+
+    const container = document.getElementById('export-window') as HTMLDivElement;
+    const textbox = document.getElementById('pixelborn-code') as HTMLTextAreaElement;
+    if (!container || !textbox) {
+      console.error('Container not found');
+      return;
+    }
+
+    textbox.value = exportCode;
+    container.style.display = 'block';
+  }
+
+  public closeExportWindow() {
+    const container = document.getElementById('export-window') as HTMLDivElement;
+    if (!container) {
+      console.error('Container not found');
+      return;
+    }
+    container.style.display = 'none';
   }
 }
 
