@@ -1,5 +1,6 @@
 import { Card } from './models/card';
-import { Stats } from './stats.ts';
+
+import { BoosterPackPage } from "./booster-page";
 
 const inkImages: { [id: string]: string } = {
   'amber': require('./images/inks/amber.png'),
@@ -11,10 +12,14 @@ const inkImages: { [id: string]: string } = {
 };
 
 export class DeckPage {
+  
+  public cards: Card[] = [];
+  public selectedCard = -1;
 
   public loadDeckFromBase64(encodedString: string): void {
     this.fetchData(encodedString)
       .then((cards) => {
+        this.cards = cards;
         this.renderCards(cards);
         this.updateCardRules(cards);
         Stats.drawCostGraph(cards);
@@ -47,14 +52,17 @@ export class DeckPage {
 
     container.innerHTML = '';
 
-    cards.forEach(card => {
+    cards.forEach( (card, i) => {
       const cardElement = document.createElement('div');
       cardElement.classList.add('card');
       cardElement.classList.add('deck-card');
+      
+      cardElement.setAttribute("onclick", `deckpage.selectCard(${i})`);
 
       const imageElement = document.createElement('img');
       imageElement.src = card.images.full;
       imageElement.alt = card.name;
+      if (i == this.selectedCard) imageElement.classList.add('selected');
 
       const nameElement = document.createElement('p');
       nameElement.textContent = card.name;
@@ -68,8 +76,7 @@ export class DeckPage {
 
   private updateCardRules(cards: Card[]): void {
     const imageContainer = document.getElementsByClassName('ink-token') as HTMLCollectionOf<HTMLImageElement>;
-    if (!imageContainer) return
-
+    if (!imageContainer) return;
     const inks: string[] = this.getInks(cards);
     for (var i = 0; i < inks.length; i++) {
       imageContainer[i].src = inkImages[inks[i].toLowerCase()];
@@ -87,6 +94,35 @@ export class DeckPage {
     });
 
     return inks;
+  }
+
+  private selectCard(position: number) {
+    if (this.selectedCard == position) {
+      this.selectedCard = -1;
+    } else {
+      this.selectedCard = position;
+    }
+    this.renderCards(this.cards);
+
+    const boosterpage = (window as any).boosterpage as BoosterPackPage;
+    if (boosterpage.getSelectedCard() != -1) {
+      const cardToSwap = boosterpage.swapCard(this.cards[this.selectedCard]);
+      this.cards[this.selectedCard] = cardToSwap;
+      this.selectedCard = -1;
+      this.renderCards(this.cards);
+    }
+  }
+
+  public getSelectedCard(): number {
+    return this.selectedCard;
+  }
+
+  public swapCard(card: Card): Card {
+    const cardToReturn = this.cards[this.selectedCard];
+    this.cards[this.selectedCard] = card;
+    this.selectedCard = -1;
+    this.renderCards(this.cards);
+    return cardToReturn;
   }
 }
 
