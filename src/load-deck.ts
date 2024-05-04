@@ -2,6 +2,7 @@ import { Card } from './models/card';
 
 import { BoosterPackPage } from './booster-page';
 import { Stats } from './stats';
+import { starterDecks } from './starter-decks';
 
 const inkImages: { [id: string]: string } = {
   'amber': require('./images/inks/amber.png'),
@@ -124,6 +125,17 @@ export class DeckPage {
     this.selectedCard = -1;
     this.renderCards(this.cards);
     return cardToReturn;
+  }
+
+  public chooseStarterDeck( selectedDeck: string) {
+    this.loadDeckFromBase64(starterDecks[selectedDeck]);
+    this.showHideStarterDeckSelector('none');
+  }
+
+  public showHideStarterDeckSelector(display: string) {
+    const container = document.getElementById('starter-deck-chooser');
+    if (!container) return;
+    container.style.display = display;
   }
 }
 
