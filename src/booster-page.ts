@@ -1,4 +1,6 @@
-import {Card} from './models/card';
+import { Card } from './models/card';
+
+import { DeckPage } from './load-deck';
 
 export class BoosterPackPage {
 
