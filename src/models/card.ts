@@ -1,7 +1,10 @@
 export interface Card {
-    images: { full: string };
-    name: string;
-    color: string;
-    cost: number;
-  }
+  id: number;
+  baseName: string;
+  subtitle: string;
+  type: string;
+  images: { full: string };
+  color: string;
+  cost: number;
+}
   

@@ -13,6 +13,7 @@
                 <input id="import-code" type="text" placeholder="Pixelborn Import Code">
                 <button onclick="deckpage.loadDeckFromBase64(document.getElementById('import-code').value)">Import</button>
                 <button onclick="deckpage.showHideStarterDeckSelector('block')">Choose Starter Deck</a>
+                <button onclick="deckpage.exportDeck()">Export to Pixelborn</button>
                 <button onclick="boosterpage.getBoosterPack()">Get Booster pack</button>
             </p>
         </div>
@@ -65,6 +66,11 @@
                 <p>The Into the Inklands set introduces an entirely new card type, so players wanting to keep up with the times should invest in a more recent starter set. Of the two, we prefer Ruby and Sapphire. It’s pretty powerful as far as starter decks go, and it’s a challenging yet rewarding introduction to Disney Lorcana.<br/><br/>Rather than one clear strategy, this deck gives you a large number of options for overtaking your opponent. It’s stuffed with Disney Lorcana location cards and items, as well as plenty of character abilities to help with questing and challenging.<br/><br/>This is a versatile deck, suitable for newer players who still want to pack a punch. However, it’s too early to tell how this deck will perform competitively, as the meta is likely to shift with Into the Inklands’ release. The overall value of its cards is also likely to drop as the set ages, and we’re not sure there are enough high-power singles in here to draw in experienced players. </p>
                 <button onclick="deckpage.chooseStarterDeck('ruby-sapphire_moana-scrooge')">Choose this deck</button>
             </div>
+        </div>
+        <div id="export-window">
+            <textarea id="pixelborn-code"></textarea>
+            <p>Copy the text and paste into Pixelborn deck builder in order to use your deck in game.</p>
+            <button id="close-export-window" onclick="deckpage.closeExportWindow()">Close</button>
         </div>
     </body>
     
