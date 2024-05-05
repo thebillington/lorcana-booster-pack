@@ -11,7 +11,11 @@ export class BoosterPackPage {
     this.fetchData()
       .then((cards) => {
         this.cards = cards;
-        this.renderCards(cards)
+        this.renderCards(cards);
+
+        const container = document.getElementById('export-deck-button');
+        if (!container) return;
+        container.style.display = "inline-block";
       })
       .catch(error => {
         console.error('Error fetching and rendering data:', error);
@@ -52,7 +56,7 @@ export class BoosterPackPage {
 
       const imageElement = document.createElement('img');
       imageElement.src = card.images.full;
-      imageElement.alt = card.name;
+      imageElement.alt = card.fullName;
 
       if (inksInDeck.length == 2) {
         if (inksInDeck.indexOf(card.color.toLowerCase()) == -1) {
@@ -63,7 +67,7 @@ export class BoosterPackPage {
       }
 
       const nameElement = document.createElement('p');
-      nameElement.textContent = card.name;
+      nameElement.textContent = card.fullName;
 
       cardElement.appendChild(imageElement);
       cardElement.appendChild(nameElement);
