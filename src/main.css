@@ -74,6 +74,12 @@ body {
   }
 }
 
+.card {
+  &.dragging {
+    opacity: 0.5;
+  }
+}
+
 .card img {
   width: 100%;
   height: auto;
@@ -192,4 +198,10 @@ body {
   position: absolute;
   right: 10px;
   bottom: 10px;
+}
+
+.card-container {
+  &.over {
+    border: 3px dashed black;
+  }
 }

@@ -6,5 +6,6 @@ import './index.html';
 
 //ts files
 require("./load-deck");
-require("./booster-page");
+require("./booster-pack");
 require("./stats.ts");
+require("./card-dragger");

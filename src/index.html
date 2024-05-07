@@ -13,7 +13,7 @@
                 <button onclick="deckpage.showHideStarterDeckSelector('block')">Choose Starter Deck</button>
                 <input id="import-code" type="text" placeholder="Pixelborn Import Code" style="display: none;">
                 <button onclick="deckpage.loadDeckFromBase64(document.getElementById('import-code').value)" style="display: none;">Import</button>
-                <button id="get-booster-button" onclick="boosterpage.getBoosterPack()" style="display: none;">Get Booster pack</button>
+                <button id="get-booster-button" onclick="boosterPack.getBoosterPack()" style="display: none;">Get Booster pack</button>
                 <button id="export-deck-button" onclick="deckpage.exportDeck()" style="display: none;">Export to Pixelborn</button>
             </p>
         </div>
@@ -26,8 +26,8 @@
             </div>
             <span id="card-count" class="card-counter">0/60</span>
         </div>
-        <div id="deck"></div>
-        <div id="booster-pack"></div>
+        <div id="deck" class="card-container"></div>
+        <div id="booster-pack" class="card-container"></div>
         <div id="starter-deck-chooser">
             <button id="close-starter-deck-selector" onclick="deckpage.showHideStarterDeckSelector('none')">Close</button>
             <p>The information on this page about starter decks is taken verbatim from <a href="https://www.wargamer.com/disney-lorcana/starter-decks">wargamer.com</a> and has been copied and pasted verbatim to give an initial understanding of the goals and playstyles of each deck. If you want to find out more, there is plenty more information on the aforementioned page describing the playstyle of each starter deck.</p>

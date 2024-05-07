@@ -1,8 +1,9 @@
 import { Card } from './models/card';
 
 import { DeckPage } from './load-deck';
+import { CardDragger } from './card-dragger';
 
-export class BoosterPackPage {
+export class BoosterPack {
 
   private cards: Card[] = [];
   private selectedCard = -1;
@@ -16,6 +17,8 @@ export class BoosterPackPage {
         const container = document.getElementById('export-deck-button');
         if (!container) return;
         container.style.display = "inline-block";
+        const cardDragger = new CardDragger();
+        cardDragger.setDraggable();
       })
       .catch(error => {
         console.error('Error fetching and rendering data:', error);
@@ -116,4 +119,4 @@ export class BoosterPackPage {
   }
 }
 
-(window as any).boosterpage = new BoosterPackPage();
+(window as any).boosterPack = new BoosterPack();

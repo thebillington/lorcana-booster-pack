@@ -1,9 +1,10 @@
 import { Card } from './models/card';
 
-import { BoosterPackPage } from './booster-page';
+import { BoosterPack } from './booster-pack';
 import { Stats } from './stats';
 import { starterDecks } from './starter-decks';
 import { Exporter } from './exporter';
+import { CardDragger } from './card-dragger';
 
 const inkImages: { [id: string]: string } = {
   'amber': require('./images/inks/amber.png'),
@@ -30,6 +31,9 @@ export class DeckPage {
         const container = document.getElementById('get-booster-button');
         if (!container) return;
         container.style.display = "inline-block";
+        
+        const cardDragger = new CardDragger();
+        cardDragger.setDraggable();
       })
       .catch(error => {
         console.error('Error fetching and rendering data:', error);
@@ -77,6 +81,7 @@ export class DeckPage {
       cardElement.appendChild(imageElement);
       cardElement.appendChild(nameElement);
 
+      cardElement.draggable = true;
       container.appendChild(cardElement);
     });
   }
@@ -125,7 +130,7 @@ export class DeckPage {
     }
     this.renderCards(this.cards);
 
-    const boosterpage = (window as any).boosterpage as BoosterPackPage;
+    const boosterpage = (window as any).boosterPack as BoosterPack;
     if (boosterpage.getSelectedCard() != -1) {
       const cardToSwap = boosterpage.swapCard(this.cards[this.selectedCard]);
       this.cards[this.selectedCard] = cardToSwap;
