@@ -7,8 +7,8 @@
         <title>Lorcana Learner</title>
     </head>
 
-    <body>
-        <div id="top-bar">
+    <body class="flex-center">
+        <div id="top-bar" class="flex-center">
             <p>
                 <button onclick="deckpage.showHideStarterDeckSelector('block')">Choose Starter Deck</button>
                 <input id="import-code" type="text" placeholder="Pixelborn Import Code" style="display: none;">
@@ -17,18 +17,24 @@
                 <button id="export-deck-button" onclick="deckpage.exportDeck()" style="display: none;">Export to Pixelborn</button>
             </p>
         </div>
-        <div id="deck-info">
-            <img id="first-ink" class="ink-token" src="images/lorcana-icon.png"><span id="card-count-first" class="card-counter ink-card-counter">0</span>
-            <img id="second-ink" class="ink-token" src="images/lorcana-icon.png"><span id="card-count-second" class="card-counter ink-card-counter">0</span>
-            <div id="graph-icon">
-                <img src="images/icons/graph-icon.png" style="width: 90%; height: 90%; padding: 5%;">
-                <canvas id="deck-curve" width="400" height="250"></canvas>
+
+        <div class="deck-info-container">
+            <div id="deck-info" class="flex-center">
+                <img id="first-ink" class="ink-token" src="images/lorcana-icon.png"><span id="card-count-first" class="card-counter ink-card-counter">0</span>
+                <img id="second-ink" class="ink-token" src="images/lorcana-icon.png"><span id="card-count-second" class="card-counter ink-card-counter">0</span>
+                <div id="graph-icon">
+                    <img src="images/icons/graph-icon.png" style="width: 90%; height: 90%; padding: 5%;">
+                    <canvas id="deck-curve" width="400" height="250"></canvas>
+                </div>
+                <span id="card-count" class="card-counter">0/60</span>
             </div>
-            <span id="card-count" class="card-counter">0/60</span>
         </div>
-        <div id="deck" class="card-container"></div>
-        <div id="booster-pack" class="card-container"></div>
-        <div id="starter-deck-chooser">
+        
+        <div class="deck-container">
+            <div id="deck" class="card-container"></div>
+            <div id="booster-pack" class="card-container"></div>
+        </div>
+        <div id="starter-deck-chooser" class="modal">
             <button id="close-starter-deck-selector" onclick="deckpage.showHideStarterDeckSelector('none')">Close</button>
             <p>The information on this page about starter decks is taken verbatim from <a href="https://www.wargamer.com/disney-lorcana/starter-decks">wargamer.com</a> and has been copied and pasted verbatim to give an initial understanding of the goals and playstyles of each deck. If you want to find out more, there is plenty more information on the aforementioned page describing the playstyle of each starter deck.</p>
             <div class="starter-deck">
@@ -74,7 +80,7 @@
                 <button onclick="deckpage.chooseStarterDeck('ruby-sapphire_moana-scrooge')">Choose this deck</button>
             </div>
         </div>
-        <div id="export-window">
+        <div id="export-window" class="modal">
             <textarea id="pixelborn-code"></textarea>
             <p>Copy the text and paste it into Pixelborn deck builder to use your deck in game.</p>
             <button id="close-export-window" onclick="deckpage.closeExportWindow()">Close</button>
