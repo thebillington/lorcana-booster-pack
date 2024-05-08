@@ -25,8 +25,6 @@ export class DeckPage {
       .then((cards) => {
         this.cards = cards;
         this.renderCards(cards);
-        this.updateCardRules(cards);
-        Stats.drawCostGraph(cards);
 
         const container = document.getElementById('get-booster-button');
         if (!container) return;
@@ -83,6 +81,10 @@ export class DeckPage {
       cardElement.draggable = true;
       container.appendChild(cardElement);
     });
+
+    this.updateCardRules(cards);
+    this.updateCardCounts(cards.length);
+    Stats.drawCostGraph(cards);
   }
 
   private updateCardRules(cards: Card[]): void {
@@ -106,8 +108,6 @@ export class DeckPage {
       imageContainers[i].setAttribute('ink', ink.toLowerCase());
       inkCountContainers[i].innerHTML = `${inkCounts[ink]}`;
     });
-
-    this.updateCardCounts(cards.length);
   }
 
   private getInks(cards: Card[]): string[] {
