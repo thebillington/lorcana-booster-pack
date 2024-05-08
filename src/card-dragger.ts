@@ -1,3 +1,6 @@
+import { BoosterPack } from "./booster-pack";
+import { DeckPage } from "./load-deck";
+
 export class CardDragger {
     private dragSource : any;
     private draggingClass: string = "dragging";
@@ -24,7 +27,6 @@ export class CardDragger {
 
     private handleDragStart(event: DragEvent) : void {
         this.dragSource = event.currentTarget as HTMLElement;
-        console.log(this.dragSource);
         this.dragSource.classList.add(this.draggingClass);
         event.dataTransfer!.effectAllowed = 'move';
         event.dataTransfer!.setData('text/html', this.dragSource.innerHTML); 
@@ -46,9 +48,7 @@ export class CardDragger {
 
     private handleDragLeave(event: DragEvent): void {
         const relatedTarget = event.relatedTarget as HTMLElement;
-        console.log(relatedTarget);
         const closestContainer = relatedTarget.closest('.card-container')
-        console.log(closestContainer);
         if(!relatedTarget || !closestContainer) {
             closestContainer?.classList.remove('over');
         }
@@ -56,9 +56,17 @@ export class CardDragger {
 
     private handleDrop(event: DragEvent): void {
         event.stopPropagation();
+
+        const deckpage = (window as any).deckpage as DeckPage;
+        const boosterpage = (window as any).boosterPack as BoosterPack;
+        const cardPosition = +this.dragSource.getAttribute("position");
+
         const target = event.target as HTMLElement;
         if(this.dragSource && this.dragSource !== target) {
-            target.closest('.card-container')!.appendChild(this.dragSource);
+            if (target.closest('.card-container')!.id == "deck") {
+                const card = boosterpage.getCard(cardPosition);
+                deckpage.insertCard(card, 0);
+            }
         }
 
         event.preventDefault();

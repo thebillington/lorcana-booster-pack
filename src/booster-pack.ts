@@ -54,8 +54,7 @@ export class BoosterPack {
       const cardElement = document.createElement('div');
       cardElement.classList.add('card');
       cardElement.classList.add('booster-card');
-
-      cardElement.setAttribute("onclick", `boosterpage.selectCard(${i})`);
+      cardElement.setAttribute("position", i.toString());
 
       const imageElement = document.createElement('img');
       imageElement.src = card.images.full;
@@ -88,34 +87,16 @@ export class BoosterPack {
     
     return inks;
   }
-
-  private selectCard(position: number) {
-    if (this.selectedCard == position) {
-      this.selectedCard = -1;
-    } else {
-      this.selectedCard = position;
-    }
+  
+  public insertCard(card: Card, position: number) {
+    this.cards.push(card);
     this.renderCards(this.cards);
-
-    const deckpage = (window as any).deckpage as DeckPage;
-    if (deckpage.getSelectedCard() != -1) {
-      const cardToSwap = deckpage.swapCard(this.cards[this.selectedCard]);
-      this.cards[this.selectedCard] = cardToSwap;
-      this.selectedCard = -1;
-      this.renderCards(this.cards);
-    }
   }
 
-  public getSelectedCard(): number {
-    return this.selectedCard;
-  }
-
-  public swapCard(card: Card): Card {
-    const cardToReturn = this.cards[this.selectedCard];
-    this.cards[this.selectedCard] = card;
-    this.selectedCard = -1;
+  public getCard( position: number ): Card {
+    const card = this.cards.splice(position, 1)[0];
     this.renderCards(this.cards);
-    return cardToReturn;
+    return card;
   }
 }
 

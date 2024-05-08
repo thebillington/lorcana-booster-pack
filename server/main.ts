@@ -24,8 +24,6 @@ const staticMiddleware = express.static("dist");
 
 app.use(staticMiddleware);
 
-console.log(__dirname)
-
 app.get('/api/deck', async (req: Request, res: Response) => {
     try {
         const encodedString: string = req.query.encodedString as string;
