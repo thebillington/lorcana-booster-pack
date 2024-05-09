@@ -1,90 +1,60 @@
-import { BoosterPack } from "./booster-pack";
-import { DeckPage } from "./load-deck";
 
-export class CardDragger {
-    private dragSource : any;
-    private draggingClass: string = "dragging";
-
-    private cards: NodeListOf<HTMLElement> = document.querySelectorAll('.card');
-    private columns: NodeListOf<HTMLElement> = document.querySelectorAll('.card-container');
-
-    public setDraggable() {
-        this.cards.forEach((col: HTMLElement) => {
-            col.addEventListener('dragstart', this.handleDragStart.bind(this), false);
-            col.addEventListener('dragover', this.handleDragOver.bind(this), false);
-            col.addEventListener('dragend', this.handleDragEnd.bind(this), false);
-        });
-
-        this.columns.forEach((col: HTMLElement) => {
-            col.addEventListener('dragenter', this.handleDragEnter.bind(this), false);
-            col.addEventListener('dragover', this.handleDragOver.bind(this), false);
-            col.addEventListener('dragleave', this.handleDragLeave.bind(this), false);
-            col.addEventListener('dragend', this.handleDragEnd.bind(this), false);
-            col.addEventListener('drop', this.handleDrop.bind(this), false);
-        });
-
-    }
-
-    private handleDragStart(event: DragEvent) : void {
-        this.dragSource = event.currentTarget as HTMLElement;
-        this.dragSource.classList.add(this.draggingClass);
-        event.dataTransfer!.effectAllowed = 'move';
-        event.dataTransfer!.setData('text/html', this.dragSource.innerHTML); 
-    }
-
-    private handleDragOver(event: DragEvent): void {
-        event.dataTransfer!.dropEffect = 'move';
-        event.preventDefault();
-    }
-
-    private handleDragEnter(event: DragEvent): void {
-        event.preventDefault();
-
-        const targetElement = event.target as HTMLElement
-        if(targetElement.closest('.card-container')) {
-            targetElement.classList.add('over');
+    import { Card } from './models/card';
+    import { DeckPage } from './load-deck';
+    import { BoosterPack } from './booster-pack';
+    
+    export class CardDragger {
+        private draggedCard: [number, Card] | undefined;
+        private deckPage: DeckPage;
+        private boosterPack: BoosterPack;
+    
+        constructor() {
+            this.deckPage = (window as any).deckpage as DeckPage;
+            this.boosterPack = (window as any).boosterPack as BoosterPack;
         }
-    }
+    
+        setupDragging() {
+            const cardElements = document.querySelectorAll('.card') as NodeListOf<HTMLElement>;
+    
+            cardElements.forEach(cardElement => {
+                const isCardDraggable = cardElement.draggable === true;
+                cardElement.addEventListener('dragstart', this.handleDragStart.bind(this), false);
+                cardElement.addEventListener('dragend', () => this.handleDragEnd());
 
-    private handleDragLeave(event: DragEvent): void {
-        const relatedTarget = event.relatedTarget as HTMLElement;
-        const closestContainer = relatedTarget.closest('.card-container')
-        if(!relatedTarget || !closestContainer) {
-            closestContainer?.classList.remove('over');
+                const images = cardElement.querySelectorAll('img');
+                images.forEach(img => {
+                    if (!isCardDraggable) {
+                        img.addEventListener('dragstart', (event) => event.preventDefault());
+                    }
+                });
+            });
         }
-    }
+    
+        private handleDragStart(event: DragEvent) {
+            const cardElement = this.findCardElement(event.target as HTMLElement);
+            if (!cardElement) return;
+        
+            const position = parseInt(cardElement.getAttribute('position') || '0');
+            this.draggedCard = [position, this.boosterPack.getCard(position)];
+        }
+    
+        private handleDragEnd() {
+            this.draggedCard = undefined;
+        }
+    
+        public handleDropIntoDeck(event: DragEvent) {
+            event.preventDefault();
+            if(!this.draggedCard) return;
+            this.deckPage.insertCard(this.draggedCard[1]!);
+            this.boosterPack.removeCard(this.draggedCard[0]!);
+        }
 
-    private handleDrop(event: DragEvent): void {
-        event.stopPropagation();
-
-        const deckpage = (window as any).deckpage as DeckPage;
-        const boosterpage = (window as any).boosterPack as BoosterPack;
-        const cardPosition = +this.dragSource.getAttribute("position");
-
-        const target = event.target as HTMLElement;
-        if(this.dragSource && this.dragSource !== target) {
-            if (target.closest('.card-container')!.id == "deck") {
-                const card = boosterpage.getCard(cardPosition);
-                deckpage.insertCard(card, 0);
+        private findCardElement(element: HTMLElement | null): HTMLElement | null {
+            while (element && !element.classList.contains('card')) {
+                element = element.parentElement;
             }
+            return element;
         }
-
-        event.preventDefault();
     }
 
-    private handleDragEnd(event: DragEvent) {
-        Array.prototype.forEach.call(this.cards, (col) => {
-            ['over', 'dragging'].forEach(function (className) {
-                col.classList.remove(className)
-            });
-        })
-
-        Array.prototype.forEach.call(this.columns, (col) => {
-            ['over', 'dragging'].forEach(function (className) {
-                col.classList.remove(className)
-            });
-        })
-    }
-
-
-}
+    (window as any).cardDragger = new CardDragger();

@@ -1,6 +1,4 @@
 import { Card } from './models/card';
-
-import { BoosterPack } from './booster-pack';
 import { Stats } from './stats';
 import { starterDecks } from './starter-decks';
 import { Exporter } from './exporter';
@@ -16,7 +14,7 @@ const inkImages: { [id: string]: string } = {
 };
 
 export class DeckPage {
-  
+  private cardDragger: CardDragger | undefined;
   public cards: Card[] = [];
   public selectedCard = -1;
 
@@ -30,8 +28,12 @@ export class DeckPage {
         if (!container) return;
         container.style.display = "inline-block";
         
-        const cardDragger = new CardDragger();
-        cardDragger.setDraggable();
+        this.cardDragger = (window as any).cardDragger as CardDragger;
+        const deckContainer = document.getElementById('deck');
+        if (deckContainer) {
+            deckContainer.addEventListener('dragover', (event) => this.handleDragOver(event));
+            deckContainer.addEventListener('drop', (event) => this.handleDrop(event));
+        }
       })
       .catch(error => {
         console.error('Error fetching and rendering data:', error);
@@ -121,7 +123,15 @@ export class DeckPage {
     return inks;
   }
 
-  public insertCard(card: Card, position: number) {
+  private handleDrop(event: DragEvent) {
+    this.cardDragger!.handleDropIntoDeck(event); 
+  }
+
+  private handleDragOver(event: DragEvent) {
+    event.preventDefault();
+  }
+
+  public insertCard(card: Card) {
     this.cards.push(card);
     this.renderCards(this.cards);
   }

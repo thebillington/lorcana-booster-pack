@@ -1,10 +1,7 @@
+import { CardDragger } from './card-dragger';
 import { Card } from './models/card';
 
-import { DeckPage } from './load-deck';
-import { CardDragger } from './card-dragger';
-
 export class BoosterPack {
-
   private cards: Card[] = [];
   private selectedCard = -1;
 
@@ -13,12 +10,9 @@ export class BoosterPack {
       .then((cards) => {
         this.cards = cards;
         this.renderCards(cards);
-
         const container = document.getElementById('export-deck-button');
         if (!container) return;
         container.style.display = "inline-block";
-        const cardDragger = new CardDragger();
-        cardDragger.setDraggable();
       })
       .catch(error => {
         console.error('Error fetching and rendering data:', error);
@@ -55,7 +49,6 @@ export class BoosterPack {
       cardElement.classList.add('card');
       cardElement.classList.add('booster-card');
       cardElement.setAttribute("position", i.toString());
-
       const imageElement = document.createElement('img');
       imageElement.src = card.images.full;
       imageElement.alt = card.fullName;
@@ -63,7 +56,9 @@ export class BoosterPack {
       if (inksInDeck.length == 2) {
         if (inksInDeck.indexOf(card.color.toLowerCase()) == -1) {
           cardElement.classList.add('disabled-card');
+          cardElement.draggable = false;
         } else {
+          cardElement.draggable = true;
           if (i == this.selectedCard) imageElement.classList.add('selected');
         }
       }
@@ -76,6 +71,8 @@ export class BoosterPack {
 
       container.appendChild(cardElement);
     });
+    const cardDragger = (window as any).cardDragger as CardDragger;
+    cardDragger.setupDragging();
   }
 
   private getInks(): string[] {
@@ -94,9 +91,13 @@ export class BoosterPack {
   }
 
   public getCard( position: number ): Card {
-    const card = this.cards.splice(position, 1)[0];
-    this.renderCards(this.cards);
+    const card = this.cards[position];
     return card;
+  }
+
+  public removeCard(positon: number) {
+    this.cards.splice(positon, 1);
+    this.renderCards(this.cards);
   }
 }
 
