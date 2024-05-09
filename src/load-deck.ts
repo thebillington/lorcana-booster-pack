@@ -29,6 +29,7 @@ export class DeckPage {
         container.style.display = "inline-block";
         
         this.cardDragger = (window as any).cardDragger as CardDragger;
+        this.cardDragger.setupDragging();
         const deckContainer = document.getElementById('deck');
         if (deckContainer) {
             deckContainer.addEventListener('dragover', (event) => this.handleDragOver(event));
@@ -80,7 +81,6 @@ export class DeckPage {
       cardElement.appendChild(imageElement);
       cardElement.appendChild(nameElement);
 
-      cardElement.draggable = true;
       container.appendChild(cardElement);
     });
 
