@@ -167,3 +167,8 @@ body {
   margin: 0 auto 10px;
   max-width: 100%;
 }
+
+.disabled-card {
+  opacity: 0.4;
+  filter: alpha(opacity=40);
+}
