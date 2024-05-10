@@ -1,8 +1,8 @@
-import express, {Express, Request, Response} from 'express';
+import express, { Express, Request, Response } from 'express';
 import { loadDeckFromBase64 } from './src/deck';
 import { getBoosterPack } from './src/booster-pack';
-const app : Express = express();
-const PORT : number | string  = process.env.PORT || 3000;
+const app: Express = express();
+const PORT: number | string = process.env.PORT || 3000;
 
 app.use(express.json());
 
@@ -15,7 +15,7 @@ const webpackDevMiddlware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 
 app.use(webpackDevMiddlware(compiler, {
-  publicPath: config.output.publicPath
+    publicPath: config.output.publicPath
 }));
 
 app.use(webpackHotMiddleware(compiler));
@@ -23,8 +23,6 @@ app.use(webpackHotMiddleware(compiler));
 const staticMiddleware = express.static("dist");
 
 app.use(staticMiddleware);
-
-console.log(__dirname)
 
 app.get('/api/deck', async (req: Request, res: Response) => {
     try {
