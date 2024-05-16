@@ -105,12 +105,21 @@ export class DeckPage {
             }
         });
 
-        inks.forEach((ink, i) => {
-            imageContainers[i]!.src = inkImages[ink.toLowerCase()];
-            imageContainers[i].setAttribute('title', ink);
-            imageContainers[i].setAttribute('ink', ink.toLowerCase());
-            inkCountContainers[i].innerHTML = `${inkCounts[ink]}`;
-        });
+        for(let i = 0; i < 2; i++) {
+            const ink = inks[i];
+            if(!ink) {
+                imageContainers[i]!.src = "/assets/lorcana-icon.png";
+                imageContainers[i].removeAttribute("title");
+                imageContainers[i].removeAttribute("ink");
+                inkCountContainers[i].innerHTML = '';
+            }
+            else {
+                imageContainers[i]!.src = inkImages[ink.toLowerCase()];
+                imageContainers[i].setAttribute('title', ink);
+                imageContainers[i].setAttribute('ink', ink.toLowerCase());
+                inkCountContainers[i].innerHTML = `${inkCounts[ink]}`;
+            }
+        }
     }
 
     private getInks(cards: Card[]): string[] {

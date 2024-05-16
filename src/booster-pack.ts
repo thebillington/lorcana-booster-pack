@@ -79,7 +79,10 @@ export class BoosterPack {
         const imageContainer = Array.from(document.getElementsByClassName('ink-token'));
         const inks: string[] = [];
         imageContainer.forEach(img => {
-            inks.push(img.getAttribute("ink") as string);
+            const inkText: string | null = img.getAttribute("ink");
+            if(inkText) {
+                inks.push(inkText);
+            }
         });
 
         return inks;
