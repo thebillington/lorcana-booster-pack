@@ -87,6 +87,7 @@ export class DeckPage {
         this.updateCardRules(cards);
         this.updateCardCounts(cards.length);
         Stats.drawCostGraph(cards);
+        this.setupCardEvents();
     }
 
     private updateCardRules(cards: Card[]): void {
@@ -136,7 +137,7 @@ export class DeckPage {
         this.renderCards(this.cards);
     }
 
-    public getCard(position: number): Card {
+    public removeCard(position: number): Card {
         const card = this.cards.splice(position, 1)[0];
         this.renderCards(this.cards);
         return card;
@@ -180,6 +181,33 @@ export class DeckPage {
             return;
         }
         container.style.display = 'none';
+    }
+
+    // we should create a "card event handler" class that handles all events attached to a card
+    // can container dragger etc
+    private setupCardEvents(): void {
+        // this should maybe be a property of the DeckPage class that is populated when we get deck
+        const deckCardElements: NodeListOf<HTMLElement> = document.querySelectorAll('#deck .card');
+        deckCardElements.forEach((cardElement: HTMLElement) => {
+            cardElement.addEventListener('contextmenu', this.rightClickCard.bind(this), false);
+        });
+    }
+
+    private rightClickCard(event: MouseEvent): void {
+        const cardElement = this.findCardElement(event.target as HTMLElement);
+        if (!cardElement) return;
+        const position = parseInt(cardElement.getAttribute('position') || '0');
+        this.removeCard(position);
+
+        event.preventDefault();
+    }
+
+    // this could be a generic util, findElement that searches for class in DOM tree
+    private findCardElement(element: HTMLElement | null): HTMLElement | null {
+        while (element && !element.classList.contains('card')) {
+            element = element.parentElement;
+        }
+        return element;
     }
 }
 
