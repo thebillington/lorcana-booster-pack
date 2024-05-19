@@ -1,7 +1,7 @@
 import { Card } from './models/card';
 import { Stats } from './stats';
 import { starterDecks } from './starter-decks';
-import { Exporter } from './exporter';
+import { PixelbornExporter, OptimisedExporter } from './exporter';
 import { CardDragger } from './card-dragger';
 
 const inkImages: { [id: string]: string } = {
@@ -160,7 +160,7 @@ export class DeckPage {
     }
 
     public exportDeck() {
-        const exportCode: string = Exporter.generatePixelbornImportCode(this.cards);
+        const exportCode: string = OptimisedExporter.generateCode(this.cards);
 
         const container = document.getElementById('export-window') as HTMLDivElement;
         const textbox = document.getElementById('pixelborn-code') as HTMLTextAreaElement;

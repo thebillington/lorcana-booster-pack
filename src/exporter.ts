@@ -1,8 +1,24 @@
-import {Card} from './models/card';
+import { Card } from './models/card';
+import { BinaryUtil } from './binary-util';
 
-export class Exporter {
+class Exporter {
 
-    public static generatePixelbornImportCode( deck: Card[] ): string {
+    static countInstancesOfCards( deck: Card[] ): Record<number, number> {
+        let count: Record<number, number> = {};
+        deck.forEach( card => {
+            if (card.id in count) {
+                count[card.id] += 1;
+            } else {
+                count[card.id] = 1;
+            }
+        });
+        return count;
+    }
+}
+
+export class PixelbornExporter extends Exporter {
+
+    public static generateCode( deck: Card[] ): string {
 
         let outputString: string = "";
         let completedCardIds: number[] = [];
@@ -21,17 +37,32 @@ export class Exporter {
 
         return btoa(outputString);
     }
+}
 
-    private static countInstancesOfCards( deck: Card[] ): Record<number, number> {
-        let count: Record<number, number> = {};
+const cardQuantityLookup = {
+    1: "00",
+    2: "01",
+    3: "10",
+    4: "11"
+}
+
+export class OptimisedExporter extends Exporter {
+
+    public static generateCode( deck: Card[] ): string {
+
+        let outputString: string = "";
+        let completedCardIds: number[] = [];
+        const count = this.countInstancesOfCards(deck);
+
         deck.forEach( card => {
-            if (card.id in count) {
-                count[card.id] += 1;
-            } else {
-                count[card.id] = 1;
+            if (completedCardIds.indexOf(card.id) == -1) {
+                outputString += BinaryUtil.intToBinaryString(card.number, 8) +
+                    BinaryUtil.intToBinaryString(card.setNumber, 6) +
+                        cardQuantityLookup[count[card.id]];
+                completedCardIds.push(card.id);
             }
         });
-        return count;
+        console.log(outputString);
+        return btoa(outputString);
     }
-    
 }
