@@ -50,19 +50,18 @@ export class OptimisedExporter extends Exporter {
 
     public static generateCode( deck: Card[] ): string {
 
-        let outputString: string = "";
+        let binaryString: string = "";
         let completedCardIds: number[] = [];
         const count = this.countInstancesOfCards(deck);
 
         deck.forEach( card => {
             if (completedCardIds.indexOf(card.id) == -1) {
-                outputString += BinaryUtil.intToBinaryString(card.number, 8) +
+                binaryString += BinaryUtil.intToBinaryString(card.number, 8) +
                     BinaryUtil.intToBinaryString(card.setNumber, 6) +
                         cardQuantityLookup[count[card.id]];
                 completedCardIds.push(card.id);
             }
         });
-        console.log(outputString);
-        return btoa(outputString);
+        return BinaryUtil.binToHex(binaryString);
     }
 }
